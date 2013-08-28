@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Web Development with Express.js</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<section>
+						<h1>CS2010 Lab 01</h1>
+					</section>
+					<section>
+						<h2>About Me</h2>
+						<ul>
+							<li>Yao Yujian</li>
+							<li>yyjhao@gmail.com</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Attendance</h2>						
+					</section>
+					<section>
+						<h2>
+							Coursemology
+						</h2>
+						<ul>
+							<li><a href="http://coursemology.com/courses/20">http://coursemology.com/courses/20</a></li>
+							<li>Download the PS1 Files</li>
+							<li>Do not need to submit to Coursemology</li>
+							<li>
+								Coursemology is for
+								<ul>
+									<li>Downloading PS packages</li>
+									<li>Viewing your scores and achievements</li>
+								</ul>
+							</li>
+							<li>Submit to Mooshak</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Mooshak</h2>
+						<ul>
+							<li><a href="http://algorithmics.comp.nus.edu.sg/~mooshak">http://algorithmics.comp.nus.edu.sg/~mooshak</a></li>
+							<li>
+								Automatic and instant grading!
+								<ul>
+									<li><strong>AC</strong>(cepted)</li>
+									<li><strong>W</strong>rong <strong>A</strong>nswer</li>
+									<li><strong>T</strong>ime <strong>L</strong>imit <strong>E</strong>xceeded</li>
+									<li><strong>R</strong>un <strong>T</strong>ime <strong>E</strong>rror </li>
+									<li><strong>C</strong>ompile <strong>T</strong>ime <strong>E</strong>rror</li>
+								</ul>
+							</li>
+							<li>Unless there are specific constraints (like PS1 Subtask 3/ Problem C), if you get your code AC, you will get that amount of marks as stated in the problem description</li>
+							<li>However, post-deadline penalty (e.g. your code are found to be a very similar copy of someone else’s code) can still alter the score</li>
+						</ul>
+					</section>
+					<section>
+						<h2>The Problem Sets</h2>
+						<ul>
+							<li>Subtask 1 is always the easiest, but low marks</li>
+							<li>Subtask 2 (or also 3) is/are CS2010 standard, medium marks</li>
+							<li>The last (or the R) Subtask is quite challenging, but low marks</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						## PS1 - The Baby Names
+						- Subtask 1/Problem A
+							- How many names start with a certain letter?
+						- Subtask 2+3/Problem B+C
+							- How many names start with a certain prefix?
+						- Problem B and C have the same test data
+						- Problem B has 10s time limit but problem C only has 1s (STRICT)
+						- For problem C, you also need to write your own **balanced** BST++!
+						- Subtask R/Problem D/Very Hard/CS2010R:
+							- How many names have a certain substring?
+					</section>
+					<section data-markdown>
+						## Week 0 UVa problems
+						1. UVa 579 (to revise your Java skill)
+						2. UVa 10855 (to revise your knowledge about Array)
+						3. UVa 11988 (to revise your knowledge about Linked List)
+						4. UVa 11111 (to revise your knowledge about Stack)
+						5. UVa 10901 (to revise your knowledge about Queue)
+						6. UVa 10258 (to revise your knowledge about Sorting)
+						7. UVa 11340 (to revise your knowledge about Hashing)
+					</section>
+					<section data-markdown>
+						## Focus on UVa 12312
+					</section>
+					<section data-markdown>
+						## That's all
+
+						- More hints on solving PS1 will be given next week
+						- But it is good if you try them first
+						- Even better: Solve them without those extra hints
+
+						- Remember: If you keep delaying your first attempt for PS1, you may run out of time even though you virtually have 2 weeks working time for PS1(23 Aug to 7 Sep)
+
+					</section>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: "Beige", // available themes are in /css/theme
+				transition: "linear", // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
