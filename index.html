@@ -18,6 +18,12 @@
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
+		<style>
+			.reveal pre:not(.small-code){
+				font-size: 1.2em;
+				line-height: 1;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -132,11 +138,21 @@
 							* http://docs.oracle.com/javase/6/docs/api/java/util/TreeSet.html
 						* Feel Free to Explore other methods
 					</section>
-					<section data-markdown>
-						## Case study: Indexing City Names
+					<section>
+						<h2>Case study: Indexing City Names</h2>
+						<ul>
+							<li>Given some cities</li>
+							<li>Connect some of them</li>
+						</ul>
+						<pre><code contentEditable>
+TreeMap&lt;String, Integer&gt; nameToNum = new TreeMap&lt;String, Integer&gt;();
+if(!nameToNum.containsKey(name)){
+    nameToNum.put(name, nameToNum.size());
+}
+						</code></pre>
 					</section>
 					<section data-markdown>
-						## Subtask 2
+						## Why check the API?
 						* There is one method in TreeMap and TreeSet that can be very very useful for PS1 Subtask 2
 							* Method subMap(fromKey, toKey) in TreeMap
 							* Method subSet(fromKey, toKey) in TreeSet
@@ -156,9 +172,8 @@
 						* If you are interested...
 							* Not tested in CS2010
 							* Forget about BBST
+							* String Processing, Bioinformatics
 							* Read the book!
-							* Ask Nguyen Tan Sy Nguyen a0099429@nus.edu.sg
-							* Or me...
 					</section>
 					<section data-markdown>
 						## PS2 Overview
@@ -167,6 +182,169 @@
 					</section>
 					<section data-markdown>
 						## Q ? A : End();
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 E-Lab 03
+						## Read this on your own
+					</section>
+					<section data-markdown>
+						## About PS1
+						* Bugs in rotations, insertion, balancing
+							* If your C code fail B, this is likely the cause
+							* Remember to re-assign the return value of your rotation to the left/right
+							* Because after rotation, the parent node now have a different child node
+						* TLE for C
+							* Likely because your algorithm runs in O(N)
+							* Because it traverses to count all nodes in the range
+							* Need to reduce the runtime to O(log(N))
+						* **However**! The test cases on Mooshak is weak...
+							* Some manage to get AC even with O(N) algorithm...
+					</section>
+					<section data-markdown>
+						## (Intended) Solution for Subtask C
+						* You don't need to go through every node in the range!
+						* Write a Balanced BST routine
+							* e.g. AVL Tree (or something else if you are pro)
+						* Make sure the rotateLeft/rotateRight operations and all the 4 cases during insertion are handled without bug (use PS1 Subtask 2 to check)
+						* Notice that AVL Tree deletion is not needed
+							* Try implementing it if you want to...
+						* Augment this BST with “size” attribute
+							* so that you can get a “rank” of a certain vertex in O(1) after you search it in O(log n)
+							* See the next slide for (an almost complete) solution
+						* Then, the answer is rank(upperbound)-rank(lowerbound)
+						* **We split the boys and girls baby names into TWO bBSTs!**
+					</section>
+					<section>
+						<img src="images/ps1.png">
+					</section>
+					<section>
+						<h2>PS2</h2>
+						<h3>PriorityQueue</h3>
+						<ul>
+						<li> There's a Java API for that </li>
+						<li> <a href="http://docs.oracle.com/javase/6/docs/api/java/util/PriorityQueue.html">http://docs.oracle.com/javase/6/docs/api/java/util/PriorityQueue.html</a> </li>
+						<li> Here's also an example </li>
+						</ul>
+						<pre class="small-code"><code contentEditable>
+// copy and paste this to your text editor for better reading experience
+// credit: ch2_06_priority_queue.java from CP3 book
+import java.util.*;
+
+class pair &lt; X, Y &gt; { // utilizing Java "Generics"
+  X _first;
+  Y _second;
+
+  public pair(X f, Y s) { _first = f; _second = s; }
+
+  X first() { return _first; }
+  Y second() { return _second; }
+
+  void setFirst(X f) { _first = f; }
+  void setSecond(Y s) { _second = s; }
+}
+
+class ch2_06_priority_queue {
+  public static void main(String[] args) {
+    // introducing 'pair'
+    // take note of the use of comparator
+    PriorityQueue &lt; pair &lt; Integer, String &gt; &gt; pq = new PriorityQueue &lt; pair &lt; Integer, String &gt; &gt;(1, 
+      new Comparator&lt; pair &lt; Integer, String &gt; &gt;() { // overriding the compare method
+        public int compare(pair &lt; Integer, String &gt; i, pair &lt; Integer, String &gt; j) {
+          return j.first() - i.first(); // currently max heap, reverse these two to try produce min-heap
+        }
+      }
+    );
+
+    // suppose we enter these 7 money-name pairs below
+    /*
+    100 john
+    10 billy
+    20 andy
+    100 steven
+    70 felix
+    2000 grace
+    70 martin
+    */
+    pq.offer(new pair &lt; Integer, String &gt; (100, "john")); // inserting a pair in O(log n)
+    pq.offer(new pair &lt; Integer, String &gt; (10, "billy"));
+    pq.offer(new pair &lt; Integer, String &gt; (20, "andy"));
+    pq.offer(new pair &lt; Integer, String &gt; (100, "steven"));
+    pq.offer(new pair &lt; Integer, String &gt; (70, "felix"));
+    pq.offer(new pair &lt; Integer, String &gt; (2000, "grace"));
+    pq.offer(new pair &lt; Integer, String &gt; (70, "martin"));
+    // this is how we use Java PriorityQueue
+    // priority queue will arrange items in 'heap' based
+    // on the first key in pair, which is money (integer), largest first
+    // if first keys tied, use second key, which is name, largest first
+  
+    // the internal content of pq heap MAY be something like this:
+    // re-read (max) heap concept if you do not understand this diagram
+    // the primary keys are money (integer), secondary keys are names (string)!
+    //                        (2000,grace)
+    //           (100,steven)               (70,martin)   
+    //     (100,john)   (10,billy)     (20,andy)  (70,felix)
+
+    // let's print out the top 3 person with most money
+    pair&lt;Integer, String&gt; result = pq.poll(); // O(1) to access the top / max element + O(log n) removal of the top and repair the structure
+    System.out.println(result.second() + " has " + result.first() + " $");
+    result = pq.poll();
+    System.out.println(result.second() + " has " + result.first() + " $");
+    result = pq.poll();
+    System.out.println(result.second() + " has " + result.first() + " $");
+  }
+}
+
+</code></pre>
+					</section>
+					<section data-markdown>
+						## E-Mission
+						1. `goto` http://rosemarietan.com/fyp/heap.html
+						2. You will see a default Max Heap of this 1-based compact array {n/a, 90, 19, 36, 17, 3, 25, 1, 2, 7}
+						3. Can you convert the same set of integers from the default Max Heap into a Min Heap?
+							* Without changing anything else from this visualization!
+						4. One of you can Post the answer in [FB group](https://www.facebook.com/groups/241724769269875/), the rest can see the answer there
+					</section>
+					<section data-markdown>
+						## Solution for Subtask 1
+						* Obviously PQ
+						* You can use the `PriorityQueue` shown just now
+							1. Implement a `woman` object
+								* **Important note**: Real life woman is *NOT* an object!
+							2. This `woman` class has to implement `interface Comparable`
+							3. Write a `compareTo` method
+								* http://docs.oracle.com/javase/6/docs/api/java/lang/Comparable.html
+							4. Done.
+					</section>
+					<section data-markdown>
+						## How about Subtasks 2 and 3?
+						* Because `UpdateDilation()`
+						* This requires ability to modify a key inside the Binary Heap where this key can be anywhere in the Binary Heap
+							* not necessarily in the root – the easiest place
+						* This operation is sometimes called as `heapUpdateKey()`
+						* To do this efficiently, we need something else not yet taught in Lecture 04, which is left for students to explore on their own or discuss among each other
+						* detailed solutions by next week, after PS2 is due \_(:3J∠)_
+					</section>
+					<section data-markdown>
+						## Hacking Solution for Subtask 2
+						* We know UpdateDilation() can make things difficult
+						* But in Subtask 2, N ≤ 10
+						* You can just use an array of size 10 and keep re-sorting the positions of up to 10 women for every `UpdateDilation()`
+						* This way, if done correctly, can give you at least 75 marks
+						* You have 1.5 more days to do this to salvage some marks 
+					</section>
+					<section data-markdown>
+						## PS3 Overview
+						* PS3 is already out since Sunday 08 Sep 2013, 8pm
+						* It is about Graph Data Structure and Graph Traversal
+						* Given a graph
+						* Find the lowest rating 'important' vertex
+						* Important vertex - if removed, graph is disconnected
+						* Rating is given directly
+						* Expect O(V x V + V x E)
+						* How to check if a graph is disconnected?
+						* More hints next week ;P
 					</section>
 				</section>
 			</div>
