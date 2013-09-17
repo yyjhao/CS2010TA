@@ -23,6 +23,18 @@
 				font-size: 1.2em;
 				line-height: 1;
 			}
+
+			.reveal code{
+				color: darkgreen;
+			}
+
+			.reveal pre code{
+				color: #eee;
+			}
+
+			.reveal strong{
+				color: brown;
+			}
 		</style>
 	</head>
 
@@ -346,6 +358,53 @@ class ch2_06_priority_queue {
 						* How to check if a graph is disconnected?
 						* More hints next week ;P
 					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 04
+						## And Online Quiz 1 (Trial)
+					</section>
+					<section data-markdown>
+						## PS2 Debrief - Common Mistakes
+
+						* Mostly OK
+						* TLE in C: Likely using `remove()` method in `PriorityQueue` for GiveBirth or any other O(n) like searching the entire PQ for a woman of a certain name
+
+						> Implementation note: this implementation provides
+						> O(log(n)) time for the enqueing and dequeing methods
+						> (offer, poll, remove() and add); **linear time** for the
+						> remove(Object) and contains(Object) methods; and
+						> constant time for the retrieval methods (peek,
+						> element, and size).
+
+						* Again, the test case is not very strong and some managed to pass...
+					</section>
+					<section data-markdown>
+						## Expected solution(s)
+
+						* Easiest: Use more than one bBSTs
+							* One bBST to map woman name to dilation and arrival time
+							* Another bBST to emulate the PQ, you can use Java TreeMap/TreeSet
+							* Arrival is simple insertion
+							* Query is FindMax
+							* GiveBirth is search for that woman and remove it
+							* IncreaseKey: search the woman, delete her old data, reinsert new data
+						* Lazy update using PQ (advanced topic, see CP3)
+						* Longest to code: Write your own Binary Heap class to do `UpdateKey`, use `HashMap` or `TreeMap` to map name to index
+					</section>
+					<section data-markdown>
+						## About PS3
+						* How to identify an important room?
+						* Have we learned an algorithm to check graph connectivity in Lecture 06?
+						* Can we use UFDS from e-Lecture 05?
+						* What is the major difference between Subtask 2 and Subtask 3?
+					</section>
+					<section data-markdown>
+						## PS3 Subtask 4 and PS Bonus
+						* Mostly for CS2010R students
+						* **You may lose your recess week if you attempt them :D**	
+					</section>
+					
 				</section>
 			</div>
 
