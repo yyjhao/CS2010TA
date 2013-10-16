@@ -35,6 +35,24 @@
 			.reveal strong{
 				color: brown;
 			}
+
+			.reveal .huge{
+				font-size: 1.5em;
+				line-height: 1.2;
+				height: auto;
+				color: brown;
+			}
+
+			.reveal .real-table, .reveal .real-table td{
+				border: 1px solid black;
+				border-collapse: collapse;
+			}
+			.reveal .real-table td{
+				padding: 5px 20px;
+			}
+			.reveal .real-table{
+				display: inline-block;
+			}
 		</style>
 	</head>
 
@@ -360,9 +378,12 @@ class ch2_06_priority_queue {
 					</section>
 				</section>
 				<section>
-					<section data-markdown>
+					<section data-markdown contentEditable>
 						# CS2010 Lab 04
 						## And Online Quiz 1 (Trial)
+						* Log in to your Computer
+						* And launch Chrome or Firefox to prepare for the quiz
+						* while I talk
 					</section>
 					<section data-markdown>
 						## PS2 Debrief - Common Mistakes
@@ -396,7 +417,6 @@ class ch2_06_priority_queue {
 						## About PS3
 						* How to identify an important room?
 						* Have we learned an algorithm to check graph connectivity in Lecture 06?
-						* Can we use UFDS from e-Lecture 05?
 						* What is the major difference between Subtask 2 and Subtask 3?
 					</section>
 					<section data-markdown>
@@ -404,7 +424,269 @@ class ch2_06_priority_queue {
 						* Mostly for CS2010R students
 						* **You may lose your recess week if you attempt them :D**	
 					</section>
-					
+					<section>
+						<h2>The Online Quiz 1</h2>
+						<ul>
+							<li>Your chance for 2% BONUS POINTS!!!</li>
+							<li>URL:</li>
+							<li class="huge">http://algorithmics.comp.nus.edu.sg /weneedaname/theexperiment.html</li>
+							<li>This lab group 2-letter PWD prefix: <span class="huge">wo</span></li>
+							<li>UID is your matric number all in UPPERCASE</li>
+							<li>Password is your Mooshak password with the prefix in front</li>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 05
+					</section>
+					<section data-markdown>
+						## PS3 Debrief - Common Mistakes
+
+						* Mostly OK
+						* WA: Trapped in corner cases
+						* TLE in C: need to convert to Adjacency List
+						* TLE in D: Expected. D requires a totoally different algorithm
+					</section>
+					<section data-markdown>
+						## About Subtask 4
+
+						* It is a classic graph problem
+						* Working codes are searchable
+						* Please **do not** blindly copy and paste them
+						* Some student have admitted this and we rendered their submission invalid
+					</section>
+					<section data-markdown>
+						## Solutions
+						* Tarjan’s algorithm for finding articulation points(cut vertices) of an undirected graph in _O(V+E)_
+							* Hopcroft, J.; Tarjan, R. (1973). "Efficient algorithms for graph manipulation". _Communications of the ACM_ **16** (6): 372–378.
+						* For 1-2-3:
+							* Convert the graph from Adjacency Matrix to Adjacency List
+							* For each vertex, try (virtually) blocking it, then runs O(V+E) DFS/BFS to see if the number of connected components increase (not necessarily to two, but can be more than two)
+					</section>
+					<section data-markdown>
+						## PS Bonus
+
+						* Subtask ABC are actually free marks :D
+						* Model it as a graph problem
+						* And solve it with something you have learned in Lecture 6: BFS
+					</section>
+					<section>
+						<img src="images/psb.png">
+
+					</section>
+					<section data-markdown>
+						## Today’s Demo: Graph DS Conversion
+
+						* By now, you have seen at least 3 graph data structures:
+						1. Adjacency Matrix (AM), e-Lecture 05
+						1. Adjacency List (AL), e-Lecture 05
+						1. Edge List (EL), Lecture 07
+
+						* Each DS is strong in certain areas but weak in another
+
+						* There are 6 possibilities: AM to AL, AM to EL, AL to AM, AL to EL, EL to AM, and EL to AL
+					</section>
+					<section data-markdown>
+						## Demo: AM to EL
+
+						* At home, think of the other possibilities that we have not discussed yet
+					</section>
+					<section data-markdown>
+						## PS4 Overview
+						* PS4 is already out since Sunday 29 Sep 2013, 8pm
+						* It is about Minimum Spanning Tree++
+						* The last two subtasks are where the fun lie >:DDDD
+					</section>
+					<section data-markdown>
+						## Review of Prim’s and Kruskal’s Code
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 06
+					</section>
+					<section data-markdown>
+						## About PS4
+
+						* Subtask 1: Tree
+						* Subtask 2-4: No Tree
+						* Subtask 5: Large number of query
+						* Subtask 6: 1/5 of run time.
+					</section>	
+					<section data-markdown>
+						## Graph Modelling Exercise
+
+						* Unlock the Lock (UVA 12160)
+							* http://uva.onlinejudge.org/external/121/12160.html
+						* Number Maze (UVA 929)
+							* http://uva.onlinejudge.org/external/9/929.html
+					</section>
+					<section>
+						<h2 id="unlock-the-lock">Unlock the lock</h2>
+<ul>
+<li>Given:
+<ul>
+<li><span class="math"><em>L</em></span>, current lock code, 4 digits integer 0000-9999</li>
+<li><span class="math"><em>U</em></span>, unlock code, also 4 digits integer 0000-9999</li>
+<li><span class="math"><em>R</em></span>, number of buttons, <span class="math"><em>R</em> ≤ 10</span>
+<ul>
+<li>Followed by <span class="math"><em>R</em><sub><em>i</em></sub></span> numbers: the value of each button</li>
+<li>Each press of button <span class="math"><em>i</em></span> transform <span class="math"><em>L</em></span> to <span class="math">(<em>L</em> + <em>R</em><sub><em>i</em></sub>)</span></li>
+</ul></li>
+</ul></li>
+<li>Problem: Can U be reached from L?
+<ul>
+<li>If yes, with how many button presses?</li>
+<li>If no, print “Permanently Locked”</li>
+</ul></li>
+</ul>
+
+					</section>
+					<section>
+						<h2 id="finding-the-implicit-graph">Finding the implicit graph</h2>
+<ul>
+<li>There are max 10000 vertices: 0000-9999!</li>
+<li><p>Connect two vertices (<span class="math"><em>L</em><sub>1</sub></span> and <span class="math"><em>L</em><sub>2</sub></span>) with an edge if <span class="math"><em>L</em><sub>2</sub> = (<em>L</em><sub>1</sub> + <em>R</em><sub><em>i</em></sub>)</span> for some button <span class="math"><em>i</em></span></p></li>
+<li>What is the graph problem?</li>
+<li>sssp from starting <span class="math"><em>L</em></span>, output <span class="math"><em>d</em><em>i</em><em>s</em><em>t</em>[<em>U</em>]</span></li>
+<li><p>if <span class="math"><em>d</em><em>i</em><em>s</em><em>t</em>[<em>u</em>]</span> is <span class="math"><em>I</em><em>N</em><em>F</em></span>, print “Permanently Locked”</p></li>
+<li>What is the graph algorithm?</li>
+<li><p>O(V+E) BFS, as the graph is unweighted</p></li>
+</ul>
+
+					</section>
+					<section>
+						<h2>Number Maze</h2>
+
+						<ul>
+							<li>Given:</li>
+							<li>
+								<ul>
+									<li>N*M grid of 1-digit integers [0..9] and 1 ≤ N, M ≤ 999</li>
+								</ul>
+							</li>
+							<li>Problem: What is the min cost value from TL to BR?</li>
+							<li>
+								<ul>
+									<li>TL = top-right corner, BL = bottom-right corner</li>
+								</ul>
+							</li>
+						</ul>
+						
+
+<TABLE class='real-table'>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">0</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+</TR>
+</TABLE>
+				</section>
+					<section>
+						<h2 id="implicit-graph">implicit graph</h2>
+<ul>
+<li>There are max <span class="math">999 * 999 = 998001 1<em>M</em></span> vertices/cells</li>
+<li>Connect two vertices/cells (a and b) with an edge
+<ul>
+<li>if they share a common border</li>
+<li>Give all weight to a vertex by the value of cell in maze</li>
+</ul></li>
+<li><p>sssp from top-left cell to bottom-right cell + maze[0][0]</p></li>
+<li>O((V+E) * log V) Dijkstra’s for weighted graph</li>
+<li><p>The O(VE) Bellman Ford’s is still too slow</p></li>
+</ul>
+<TABLE class='real-table'>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">0</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+</TR>
+</TABLE>
+
+					</section>
+					<section data-markdown>
+						## PS5
+						* It is about Single-Source Shortest Paths++
+						* The last subtask E has a nice twist that was originally meant for Quiz 2, but placed here as it may be ‘too hard’ for a 77 minutes Quiz 2
+					</section>
 				</section>
 			</div>
 
