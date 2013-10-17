@@ -19,7 +19,10 @@
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 		<style>
-			.reveal pre:not(.small-code){
+			.reveal pre.mid-code{
+				font-size: 0.7em;
+			}
+			.reveal pre:not(.small-code,.mid-code){
 				font-size: 1.2em;
 				line-height: 1;
 			}
@@ -34,6 +37,24 @@
 
 			.reveal strong{
 				color: brown;
+			}
+
+			.reveal .huge{
+				font-size: 1.5em;
+				line-height: 1.2;
+				height: auto;
+				color: brown;
+			}
+
+			.reveal .real-table, .reveal .real-table td{
+				border: 1px solid black;
+				border-collapse: collapse;
+			}
+			.reveal .real-table td{
+				padding: 5px 20px;
+			}
+			.reveal .real-table{
+				display: inline-block;
 			}
 		</style>
 	</head>
@@ -360,9 +381,12 @@ class ch2_06_priority_queue {
 					</section>
 				</section>
 				<section>
-					<section data-markdown>
+					<section data-markdown contentEditable>
 						# CS2010 Lab 04
 						## And Online Quiz 1 (Trial)
+						* Log in to your Computer
+						* And launch Chrome or Firefox to prepare for the quiz
+						* while I talk
 					</section>
 					<section data-markdown>
 						## PS2 Debrief - Common Mistakes
@@ -396,7 +420,6 @@ class ch2_06_priority_queue {
 						## About PS3
 						* How to identify an important room?
 						* Have we learned an algorithm to check graph connectivity in Lecture 06?
-						* Can we use UFDS from e-Lecture 05?
 						* What is the major difference between Subtask 2 and Subtask 3?
 					</section>
 					<section data-markdown>
@@ -404,7 +427,487 @@ class ch2_06_priority_queue {
 						* Mostly for CS2010R students
 						* **You may lose your recess week if you attempt them :D**	
 					</section>
-					
+					<section>
+						<h2>The Online Quiz 1</h2>
+						<ul>
+							<li>Your chance for 2% BONUS POINTS!!!</li>
+							<li>URL:</li>
+							<li class="huge">http://algorithmics.comp.nus.edu.sg /weneedaname/theexperiment.html</li>
+							<li>This lab group 2-letter PWD prefix: <span class="huge">wo</span></li>
+							<li>UID is your matric number all in UPPERCASE</li>
+							<li>Password is your Mooshak password with the prefix in front</li>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 05
+					</section>
+					<section data-markdown>
+						## PS3 Debrief - Common Mistakes
+
+						* Mostly OK
+						* WA: Trapped in corner cases
+						* TLE in C: need to convert to Adjacency List
+						* TLE in D: Expected. D requires a totoally different algorithm
+					</section>
+					<section data-markdown>
+						## About Subtask 4
+
+						* It is a classic graph problem
+						* Working codes are searchable
+						* Please **do not** blindly copy and paste them
+						* Some student have admitted this and we rendered their submission invalid
+					</section>
+					<section data-markdown>
+						## Solutions
+						* Tarjan’s algorithm for finding articulation points(cut vertices) of an undirected graph in _O(V+E)_
+							* Hopcroft, J.; Tarjan, R. (1973). "Efficient algorithms for graph manipulation". _Communications of the ACM_ **16** (6): 372–378.
+						* For 1-2-3:
+							* Convert the graph from Adjacency Matrix to Adjacency List
+							* For each vertex, try (virtually) blocking it, then runs O(V+E) DFS/BFS to see if the number of connected components increase (not necessarily to two, but can be more than two)
+					</section>
+					<section data-markdown>
+						## PS Bonus
+
+						* Subtask ABC are actually free marks :D
+						* Model it as a graph problem
+						* And solve it with something you have learned in Lecture 6: BFS
+					</section>
+					<section>
+						<img src="images/psb.png">
+
+					</section>
+					<section data-markdown>
+						## Today’s Demo: Graph DS Conversion
+
+						* By now, you have seen at least 3 graph data structures:
+						1. Adjacency Matrix (AM), e-Lecture 05
+						1. Adjacency List (AL), e-Lecture 05
+						1. Edge List (EL), Lecture 07
+
+						* Each DS is strong in certain areas but weak in another
+
+						* There are 6 possibilities: AM to AL, AM to EL, AL to AM, AL to EL, EL to AM, and EL to AL
+					</section>
+					<section data-markdown>
+						## Demo: AM to EL
+
+						* At home, think of the other possibilities that we have not discussed yet
+					</section>
+					<section data-markdown>
+						## PS4 Overview
+						* PS4 is already out since Sunday 29 Sep 2013, 8pm
+						* It is about Minimum Spanning Tree++
+						* The last two subtasks are where the fun lie >:DDDD
+					</section>
+					<section data-markdown>
+						## Review of Prim’s and Kruskal’s Code
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 06
+					</section>
+					<section data-markdown>
+						## About PS4
+
+						* Subtask 1: Tree
+						* Subtask 2-4: No Tree
+						* Subtask 5: Large number of query
+						* Subtask 6: 1/5 of run time.
+					</section>	
+					<section data-markdown>
+						## Graph Modelling Exercise
+
+						* Unlock the Lock (UVA 12160)
+							* http://uva.onlinejudge.org/external/121/12160.html
+						* Number Maze (UVA 929)
+							* http://uva.onlinejudge.org/external/9/929.html
+					</section>
+					<section>
+						<h2 id="unlock-the-lock">Unlock the lock</h2>
+<ul>
+<li>Given:
+<ul>
+<li><span class="math"><em>L</em></span>, current lock code, 4 digits integer 0000-9999</li>
+<li><span class="math"><em>U</em></span>, unlock code, also 4 digits integer 0000-9999</li>
+<li><span class="math"><em>R</em></span>, number of buttons, <span class="math"><em>R</em> ≤ 10</span>
+<ul>
+<li>Followed by <span class="math"><em>R</em><sub><em>i</em></sub></span> numbers: the value of each button</li>
+<li>Each press of button <span class="math"><em>i</em></span> transform <span class="math"><em>L</em></span> to <span class="math">(<em>L</em> + <em>R</em><sub><em>i</em></sub>)</span></li>
+</ul></li>
+</ul></li>
+<li>Problem: Can U be reached from L?
+<ul>
+<li>If yes, with how many button presses?</li>
+<li>If no, print “Permanently Locked”</li>
+</ul></li>
+</ul>
+
+					</section>
+					<section>
+						<h2 id="finding-the-implicit-graph">Finding the implicit graph</h2>
+<ul>
+<li>There are max 10000 vertices: 0000-9999!</li>
+<li><p>Connect two vertices (<span class="math"><em>L</em><sub>1</sub></span> and <span class="math"><em>L</em><sub>2</sub></span>) with an edge if <span class="math"><em>L</em><sub>2</sub> = (<em>L</em><sub>1</sub> + <em>R</em><sub><em>i</em></sub>)</span> for some button <span class="math"><em>i</em></span></p></li>
+<li>What is the graph problem?</li>
+<li>sssp from starting <span class="math"><em>L</em></span>, output <span class="math"><em>d</em><em>i</em><em>s</em><em>t</em>[<em>U</em>]</span></li>
+<li><p>if <span class="math"><em>d</em><em>i</em><em>s</em><em>t</em>[<em>u</em>]</span> is <span class="math"><em>I</em><em>N</em><em>F</em></span>, print “Permanently Locked”</p></li>
+<li>What is the graph algorithm?</li>
+<li><p>O(V+E) BFS, as the graph is unweighted</p></li>
+</ul>
+
+					</section>
+					<section>
+						<h2>Number Maze</h2>
+
+						<ul>
+							<li>Given:</li>
+							<li>
+								<ul>
+									<li>N*M grid of 1-digit integers [0..9] and 1 ≤ N, M ≤ 999</li>
+								</ul>
+							</li>
+							<li>Problem: What is the min cost value from TL to BR?</li>
+							<li>
+								<ul>
+									<li>TL = top-right corner, BL = bottom-right corner</li>
+								</ul>
+							</li>
+						</ul>
+						
+
+<TABLE class='real-table'>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">0</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+</TR>
+</TABLE>
+				</section>
+					<section>
+						<h2 id="implicit-graph">implicit graph</h2>
+<ul>
+<li>There are max <span class="math">999 * 999 = 998001 1<em>M</em></span> vertices/cells</li>
+<li>Connect two vertices/cells (a and b) with an edge
+<ul>
+<li>if they share a common border</li>
+<li>Give all weight to a vertex by the value of cell in maze</li>
+</ul></li>
+<li><p>sssp from top-left cell to bottom-right cell + maze[0][0]</p></li>
+<li>O((V+E) * log V) Dijkstra’s for weighted graph</li>
+<li><p>The O(VE) Bellman Ford’s is still too slow</p></li>
+</ul>
+<TABLE class='real-table'>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">0</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">9</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">1</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">7</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+</TR>
+<TR><TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">3</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">4</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">2</TD>
+<TD WIDTH="20%" VALIGN="TOP">
+<P ALIGN="CENTER">5</TD>
+</TR>
+</TABLE>
+
+					</section>
+					<section data-markdown>
+						## PS5
+						* It is about Single-Source Shortest Paths++
+						* The last subtask E has a nice twist that was originally meant for Quiz 2, but placed here as it may be ‘too hard’ for a 77 minutes Quiz 2
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 07
+					</section>
+					<section data-markdown>
+						## PS4 Debrief
+
+						* All of you cleared ABCD!
+						* This is the "minimum standard"
+						* Common problems: TLE for E and/or F
+					</section>
+					<section data-markdown>
+						## Subtask E
+
+						* Pre-compute all possible queries from source vertex 0-9 to all other vertices
+							* by running `DFS` (or `BFS`) 10 times 
+							* after you obtained the `MST`
+						* Store the query results in a 2D array of answers of size `10*V`
+							* Using hash table or map (bBST) is possible but pointless
+						* This is an algorithmic improvement:
+							* Trading memory (2D array of answers) for `O(1)` query speed
+							* This important key concept will be revisited in **Dynamic Programming**!
+					</section>
+					<section data-markdown>
+						## Subtask F
+						* Subtask 5 solution from previous slide
+						* KEY STEP: Improve the slow `Scanner` and `println`
+							* with `BufferedReader` + `PrintWriter`
+							* This is constant factor implementation tweak
+							* This has been used in PS1 skeleton code :D
+						* How to use `BufferedReader` properly?
+							* Standard:
+								1. call `readLine()` method
+								1. use `StringTokenizer`
+								1. then use `Integer.parseInt()` method
+							* Better:
+								* Use class `IntegerScanner` (this is part of **Ian Leow’s** code)
+					</section>
+					<section>
+						<pre class="small-code"><code contentEditable>
+class IntegerScanner { // only work for all integer input
+  BufferedInputStream bis;
+  IntegerScanner(InputStream is) {
+    bis = new BufferedInputStream(is, 1000000);
+  }
+  
+  public int nextInt() {    
+    int result = 0;
+    try {
+      int cur = bis.read(); // use read instead of readline
+      if (cur == -1)
+        return -1;
+      while (cur &lt; 48 || cur &gt; 57)
+        cur = bis.read();
+      while (cur >= 48 &amp;&amp; cur &lt;= 57) { // ASCII values of 0 to 9
+        result = result * 10 + (cur - 48);
+        cur = bis.read();
+      }
+      return result;
+    }
+    catch(IOException ioe) {
+      return -1;
+} } }
+						</code></pre>
+					</section>
+					<section data-markdown>
+						## Subtask F
+						* Speed up the output as we have **100K** queries
+							* Standard:
+								* Replace `System.out.println`
+								* with `pr.println` in class `PrintWriter`
+									* do not forget to call pr.close() at the end
+							* Slightly better:
+								* Combine StringBuilder with PrintWriter
+					</section>
+					<section data-markdown>
+						## Subtask F
+						* Minor enhancements (will not matter much):
+							* Only run DFS/BFS from source s when asked… not always from [0..9]
+								* On some small test cases V is &lt; 10;
+								* On some test cases, Steven only ask from source s = 0
+							* Kruskal’s user only 
+								* In `OutForAWalkVerifier.java`, there is a check that the edge weight of test data is `[0..1000]`
+								* This can actually be exploited for Kruskal’s user
+									* use Counting Sort to sort the edges
+									* so that Kruskal’s runs in `O(E)` instead of `O(E log V)`
+								* Learn Counting Sort on your own, it is in CS3230 syllabus, not here in CS2010
+					</section>
+					<section data-markdown>
+						## Some more words
+						* 88 students (a few TAs there) solved PS4 ABCDEF
+						* 119 students (a few TAs there) solved PS4 ABCDE
+						* This is much better than what Steven expected
+						* So, praise your hard work and perseverance!
+						* Good job!
+						* And PS4F will likely be dropped next year \_(:3J∠)_
+						* Coming next:
+							* PS6 is 'weak'
+							* PS5 is already quite challenging
+							* PS7R is also hard
+					</section>
+					<section data-markdown>
+						## PS5 Subtask ABCD
+
+						* Nothing to hide here, PS5 Subtask 1-4 are thereto force you to code at least one SSSP algorithm:
+							* Subtask A: the graph is a tree
+							* Subtask B: the graph is unweighted (constant weight)
+							* Subtask C: the graph is weighted, VE &lt; 1M
+							* Subtask D: the graph is weighted, V+E &lt; 250K
+						* PS: You cannot assume that the value of V or E is small
+							* There are test cases with V = 100K, E = 100K-1 
+							* i.e. a very large tree with V+E ~= 200K
+					</section>
+					<section data-markdown>
+						## PS5 Subtask E
+
+						* The additional constraint is quite relevant in real life
+							* Google around for recent (taxi) accidents videos in SG
+							* Many happened around junctions
+							* Note that some of those accidents are fatal
+								* so please watch those videos with caution
+
+						* What to do in order to handle this seemingly simple additional constraint?
+							* (the shortest path cannot have more than 7 vertices on it)
+						* Hint: Related to graph modeling exercise last week!
+						* We will not disclose anything more detailed than that, but you can discuss among each other
+					</section>
+					<section data-markdown>
+						## APIO 2013 Stuff
+
+						* Cool stuffs about SSSP algorithms
+						* Let’s see APIO13_finalversion.pdf, page 7-10 + 12-13
+
+						* As we have not learned Floyd Warshall’s yet,
+						* let’s concentrate on **Subtask 5 and Subtask 6**
+					</section>
+					<section>
+						<h2>Modified Bellman Ford's</h2>
+
+						<pre class="mid-code"><code>
+counter = 0
+for each query p(s,t);
+  dist[s] = 0; // s is the source vertex
+  loop V-1 times
+    change = false;
+    for each edge (u,v) in L
+      increase counter by 1;
+      if dist[u] + weight(u,v) &lt; dist[v]
+        dist[v] = dist[u] + weight(u,v);
+        change = true;
+    if change is false // this is the ’optimized’ Bellman Ford
+      break from the outermost loop;
+  output dist[t];
+  						</code></pre>
+  						<p>How to make it run in O(VE)?</p>
+					</section>
+					<section data-markdown>
+						## Solution
+						1. The Optimized Bellman Ford’s has a check inside the outer for-loop
+							* if there is no more edge relaxation, it will immediately stop.
+						1. In order to force the Optimized Bellman Ford’s to really repeat all E edges relaxation V-1 times, we need to observe the listing of the E edges.
+						1. The code is written in such a way 
+							1. All outgoing edges of vertex 0 is processed first
+							1. Then all outgoing edges of vertex 1, ..., until all outgoing edges of vertex V-1.
+						1. Therefore, we need the source vertex to be vertex V-1.
+					</section>
+					<section data-markdown>
+						## Solution
+
+						1. We create a graph where we have edges from vertex i to vertex j if j &lt; i.
+						1. The weight of edge (i, j) is 1 if i-j = 1 or i-j+1 otherwise.
+						1. This way, all E edges have to be relaxed exactly V−1 times.
+						1. The Modified Dijkstra’s has no problem with this input graph.
+					</section>
+					<section>
+						<h2>Modified Dijkstra’s</h2>
+
+						<pre class="mid-code"><code>
+counter = 0;
+for each query p(s,t)
+  dist[s] = 0; pq.push(pair(0, s)); // pq is a priority queue
+  while pq is not empty
+    increase counter by 1;
+    (d, u) = the top element of pq and then remove it from pq;
+    if (d == dist[u]) // that important check
+      for each edge (u,v) in L
+        if (dist[u] + weight(u,v)) &lt; dist[v]
+          dist[v] = dist[u] + weight(u,v);
+          insert pair (dist[v], v) into the pq; // lazy
+  output dist[t];
+  						</code></pre>
+  						<p>How to make this run extremely slowly?</p>
+					</section>
+					<section data-markdown>
+						## Solution
+						1. Modified Dijkstra re-enqueue and re-process new vertex information pair.
+						1. On a graph with no negative weight edge, such action is rare (but exists)
+						1. On a graph with negative weight but no negative weight cycle, one can construct a ‘dual path’ graph as shown in the next slide
+							1. To make Modified Dijkstra’s reprocess many vertices many times (exponentially)
+							1. whereas the Optimized Bellman Ford’s simply runs in O(VE).
+					</section>
+					<section>
+						<img src="images/dij.png" />
+						<p>Image courtesy of Francisco Criado, one of Steven's CP book reader from Spain</p>
+					</section>
+					<section data-markdown>
+						## PS6 Overview
+
+						* PS6 is out today (Thursday 17 Oct 2013, 8am)
+						* It is about a very simple DP
+						* The proper lecture on this will only be delivered next week
+						* But you have seen the solution actually (briefly during Lecture 08)…
+						* The last subtask is still very simple (in Steven’s opinion)
+						* It is slightly different from last year’s version 2.0 in order to minimize blind copy paste from last year’s solution
+
+						* Let’s see PS6.pdf
+					</section>
 				</section>
 			</div>
 
