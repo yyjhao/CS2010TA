@@ -19,7 +19,10 @@
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 		<style>
-			.reveal pre:not(.small-code){
+			.reveal pre.mid-code{
+				font-size: 0.7em;
+			}
+			.reveal pre:not(.small-code,.mid-code){
 				font-size: 1.2em;
 				line-height: 1;
 			}
@@ -686,6 +689,224 @@ class ch2_06_priority_queue {
 						## PS5
 						* It is about Single-Source Shortest Paths++
 						* The last subtask E has a nice twist that was originally meant for Quiz 2, but placed here as it may be ‘too hard’ for a 77 minutes Quiz 2
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 07
+					</section>
+					<section data-markdown>
+						## PS4 Debrief
+
+						* All of you cleared ABCD!
+						* This is the "minimum standard"
+						* Common problems: TLE for E and/or F
+					</section>
+					<section data-markdown>
+						## Subtask E
+
+						* Pre-compute all possible queries from source vertex 0-9 to all other vertices
+							* by running `DFS` (or `BFS`) 10 times 
+							* after you obtained the `MST`
+						* Store the query results in a 2D array of answers of size `10*V`
+							* Using hash table or map (bBST) is possible but pointless
+						* This is an algorithmic improvement:
+							* Trading memory (2D array of answers) for `O(1)` query speed
+							* This important key concept will be revisited in **Dynamic Programming**!
+					</section>
+					<section data-markdown>
+						## Subtask F
+						* Subtask 5 solution from previous slide
+						* KEY STEP: Improve the slow `Scanner` and `println`
+							* with `BufferedReader` + `PrintWriter`
+							* This is constant factor implementation tweak
+							* This has been used in PS1 skeleton code :D
+						* How to use `BufferedReader` properly?
+							* Standard:
+								1. call `readLine()` method
+								1. use `StringTokenizer`
+								1. then use `Integer.parseInt()` method
+							* Better:
+								* Use class `IntegerScanner` (this is part of **Ian Leow’s** code)
+					</section>
+					<section>
+						<pre class="small-code"><code contentEditable>
+class IntegerScanner { // only work for all integer input
+  BufferedInputStream bis;
+  IntegerScanner(InputStream is) {
+    bis = new BufferedInputStream(is, 1000000);
+  }
+  
+  public int nextInt() {    
+    int result = 0;
+    try {
+      int cur = bis.read(); // use read instead of readline
+      if (cur == -1)
+        return -1;
+      while (cur &lt; 48 || cur &gt; 57)
+        cur = bis.read();
+      while (cur >= 48 &amp;&amp; cur &lt;= 57) { // ASCII values of 0 to 9
+        result = result * 10 + (cur - 48);
+        cur = bis.read();
+      }
+      return result;
+    }
+    catch(IOException ioe) {
+      return -1;
+} } }
+						</code></pre>
+					</section>
+					<section data-markdown>
+						## Subtask F
+						* Speed up the output as we have **100K** queries
+							* Standard:
+								* Replace `System.out.println`
+								* with `pr.println` in class `PrintWriter`
+									* do not forget to call pr.close() at the end
+							* Slightly better:
+								* Combine StringBuilder with PrintWriter
+					</section>
+					<section data-markdown>
+						## Subtask F
+						* Minor enhancements (will not matter much):
+							* Only run DFS/BFS from source s when asked… not always from [0..9]
+								* On some small test cases V is &lt; 10;
+								* On some test cases, Steven only ask from source s = 0
+							* Kruskal’s user only 
+								* In `OutForAWalkVerifier.java`, there is a check that the edge weight of test data is `[0..1000]`
+								* This can actually be exploited for Kruskal’s user
+									* use Counting Sort to sort the edges
+									* so that Kruskal’s runs in `O(E)` instead of `O(E log V)`
+								* Learn Counting Sort on your own, it is in CS3230 syllabus, not here in CS2010
+					</section>
+					<section data-markdown>
+						## Some more words
+						* 88 students (a few TAs there) solved PS4 ABCDEF
+						* 119 students (a few TAs there) solved PS4 ABCDE
+						* This is much better than what Steven expected
+						* So, praise your hard work and perseverance!
+						* Good job!
+						* And PS4F will likely be dropped next year \_(:3J∠)_
+						* Coming next:
+							* PS6 is 'weak'
+							* PS5 is already quite challenging
+							* PS7R is also hard
+					</section>
+					<section data-markdown>
+						## PS5 Subtask ABCD
+
+						* Nothing to hide here, PS5 Subtask 1-4 are thereto force you to code at least one SSSP algorithm:
+							* Subtask A: the graph is a tree
+							* Subtask B: the graph is unweighted (constant weight)
+							* Subtask C: the graph is weighted, VE &lt; 1M
+							* Subtask D: the graph is weighted, V+E &lt; 250K
+						* PS: You cannot assume that the value of V or E is small
+							* There are test cases with V = 100K, E = 100K-1 
+							* i.e. a very large tree with V+E ~= 200K
+					</section>
+					<section data-markdown>
+						## PS5 Subtask E
+
+						* The additional constraint is quite relevant in real life
+							* Google around for recent (taxi) accidents videos in SG
+							* Many happened around junctions
+							* Note that some of those accidents are fatal
+								* so please watch those videos with caution
+
+						* What to do in order to handle this seemingly simple additional constraint?
+							* (the shortest path cannot have more than 7 vertices on it)
+						* Hint: Related to graph modeling exercise last week!
+						* We will not disclose anything more detailed than that, but you can discuss among each other
+					</section>
+					<section data-markdown>
+						## APIO 2013 Stuff
+
+						* Cool stuffs about SSSP algorithms
+						* Let’s see APIO13_finalversion.pdf, page 7-10 + 12-13
+
+						* As we have not learned Floyd Warshall’s yet,
+						* let’s concentrate on **Subtask 5 and Subtask 6**
+					</section>
+					<section>
+						<h2>Modified Bellman Ford's</h2>
+
+						<pre class="mid-code"><code>
+counter = 0
+for each query p(s,t);
+  dist[s] = 0; // s is the source vertex
+  loop V-1 times
+    change = false;
+    for each edge (u,v) in L
+      increase counter by 1;
+      if dist[u] + weight(u,v) &lt; dist[v]
+        dist[v] = dist[u] + weight(u,v);
+        change = true;
+    if change is false // this is the ’optimized’ Bellman Ford
+      break from the outermost loop;
+  output dist[t];
+  						</code></pre>
+  						<p>How to make it run in O(VE)?</p>
+					</section>
+					<section data-markdown>
+						## Solution
+						1. The Optimized Bellman Ford’s has a check inside the outer for-loop
+							* if there is no more edge relaxation, it will immediately stop.
+						1. In order to force the Optimized Bellman Ford’s to really repeat all E edges relaxation V-1 times, we need to observe the listing of the E edges.
+						1. The code is written in such a way 
+							1. All outgoing edges of vertex 0 is processed first
+							1. Then all outgoing edges of vertex 1, ..., until all outgoing edges of vertex V-1.
+						1. Therefore, we need the source vertex to be vertex V-1.
+					</section>
+					<section data-markdown>
+						## Solution
+
+						1. We create a graph where we have edges from vertex i to vertex j if j &lt; i.
+						1. The weight of edge (i, j) is 1 if i-j = 1 or i-j+1 otherwise.
+						1. This way, all E edges have to be relaxed exactly V−1 times.
+						1. The Modified Dijkstra’s has no problem with this input graph.
+					</section>
+					<section>
+						<h2>Modified Dijkstra’s</h2>
+
+						<pre class="mid-code"><code>
+counter = 0;
+for each query p(s,t)
+  dist[s] = 0; pq.push(pair(0, s)); // pq is a priority queue
+  while pq is not empty
+    increase counter by 1;
+    (d, u) = the top element of pq and then remove it from pq;
+    if (d == dist[u]) // that important check
+      for each edge (u,v) in L
+        if (dist[u] + weight(u,v)) &lt; dist[v]
+          dist[v] = dist[u] + weight(u,v);
+          insert pair (dist[v], v) into the pq; // lazy
+  output dist[t];
+  						</code></pre>
+  						<p>How to make this run extremely slowly?</p>
+					</section>
+					<section data-markdown>
+						## Solution
+						1. Modified Dijkstra re-enqueue and re-process new vertex information pair.
+						1. On a graph with no negative weight edge, such action is rare (but exists)
+						1. On a graph with negative weight but no negative weight cycle, one can construct a ‘dual path’ graph as shown in the next slide
+							1. To make Modified Dijkstra’s reprocess many vertices many times (exponentially)
+							1. whereas the Optimized Bellman Ford’s simply runs in O(VE).
+					</section>
+					<section>
+						<img src="images/dij.png" />
+						<p>Image courtesy of Francisco Criado, one of Steven's CP book reader from Spain</p>
+					</section>
+					<section data-markdown>
+						## PS6 Overview
+
+						* PS6 is out today (Thursday 17 Oct 2013, 8am)
+						* It is about a very simple DP
+						* The proper lecture on this will only be delivered next week
+						* But you have seen the solution actually (briefly during Lecture 08)…
+						* The last subtask is still very simple (in Steven’s opinion)
+						* It is slightly different from last year’s version 2.0 in order to minimize blind copy paste from last year’s solution
+
+						* Let’s see PS6.pdf
 					</section>
 				</section>
 			</div>
