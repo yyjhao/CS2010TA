@@ -909,6 +909,99 @@ for each query p(s,t)
 						* Let’s see PS6.pdf
 					</section>
 				</section>
+				<section>
+					<section data-markdown>
+						# CS2010 Lab 08
+					</section>
+					<section data-markdown>
+						## PS5 Debrief
+
+						* Mostly AC in ABCD, no major surprise here
+						* BUT, some who AC problem D forgot to do two things
+						* Possible to make this TLE with a (much) stronger test data
+						* WA (or TLE) in E for various reasons
+					</section>
+					<section data-markdown>
+						## Solution
+
+						* Copy &amp; paste Dijkstra's Algorithm
+						* SPFA Algorithm
+							* Shortest Path Faster Algorithm
+					</section>
+					<section>
+						<h2>What if</h2>
+						<pre class="mid-code"><code>
+PriorityQueue&lt;IntegerPair&gt; pq = new PriorityQueue&lt;IntegerPair&gt;();
+pq.offer(new IntegerPair(0, s));
+while (!pq.isEmpty()) {
+  IntegerPair top = pq.poll();
+  int d = top.first(), u = top.second();
+  if (u == t) break; // to speed up a bit,
+  // what if 0 is very close to 1 but the graph is very gigantic?
+  if (d > dist.get(u)) continue; // some of you don’t do this
+  // what if there are so many inferior information in the PQ?
+  for (int j = 0; j &lt; AdjList.get(u).size(); j++) {
+    IntegerPair p = AdjList.get(u).get(j);
+    int v = p.first(), weight_u_v = p.second();
+    if (dist.get(u) + weight_u_v &lt; dist.get(v)) {
+      dist.set(v, dist.get(u) + weight_u_v);
+      pq.offer(new IntegerPair(dist.get(v), v));
+} } }
+
+						</code></pre>
+					</section>
+					<section data-markdown>
+						## PS4 Subtask 5:
+						* Graph modeling
+						* Map each vertex `v` to `(v, vertices_used_so_far)`
+						* Keep track of how many vertices has been used in the shortest path
+						* Then modify your Dijkstra’s implementation accordingly
+							* Wrong implementation can causes various wrong answers
+							* Fortunately Steven allow you to use pseudo-code in written tests
+					</section>
+					<section data-background="images/ps5.png">
+						
+					</section>
+					<section data-markdown>
+						## Implementation Tips
+						* Reorder (dist[v], v, depth[v]) to (dist[v], depth[v], v)
+						* Is the first triple wrong?
+						* Why does this help?
+					</section>
+					<section data-markdown>
+						## PS5 DP Formuation
+						* We can classify this problem as DP problem
+						* This is because the transformed graph is actually a DAG
+						* In fact, after you finish Lecture 11, you may want to re-do this problem with DP
+					</section>
+					<section data-markdown>
+						## Demo Today
+						* Discussion of one classic algorithm on DAG
+						* UVa 926 - Walking Around Wisely
+							* http://uva.onlinejudge.org/external/9/926.html
+						* This is part of CS2010 final exam question in the past two years
+							* (the final exam question is the simplified version)
+					</section>
+					<section data-markdown>
+						## PS6 Ideas
+
+						* Nothing much :O, classic Longest Path on DAG
+						* Topological Sort + Linear Pass as in Lecture 10
+						* Even the modified last subtask is also not that hard
+							* You just need to find vertices not inside the critical path
+							* (what is tested is the implementation to do this quickly)
+						* To think about: What if Steven change +1 minute to +X minute(s) where X can be >1?
+					</section>
+					<section data-markdown>
+						## PS7
+
+						* PS7 is out today (Thursday 24 Oct 2013, 00.00am)
+						* This is about TSP++
+						* The proper lecture on this will only be delivered next week
+						* The last subtask is quite challenging (in Steven’s opinion)
+						* But maybe not as hard as PS Bonus (again this is subjective feeling)
+					</section>
+				</section>
 			</div>
 
 		</div>
